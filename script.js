@@ -1,18 +1,22 @@
-// ================================
-// CAMPUSJAM JAVASCRIPT
-// ================================
+// ==========================================
+// CAMPUSJAM - MAIN JAVASCRIPT
+// ==========================================
 
 
+// ==========================================
 // SONG DATA
+// ==========================================
 
 let songs = [
+
     {
         name: "Blinding Lights",
         artist: "The Weeknd",
         genre: "Pop",
         votes: 124,
         color: "purple",
-        voted: false
+        voted: false,
+        link: "https://www.youtube.com/results?search_query=The+Weeknd+Blinding+Lights"
     },
 
     {
@@ -21,7 +25,8 @@ let songs = [
         genre: "Indie",
         votes: 98,
         color: "pink",
-        voted: false
+        voted: false,
+        link: "https://www.youtube.com/results?search_query=Stephen+Sanchez+Until+I+Found+You"
     },
 
     {
@@ -30,7 +35,8 @@ let songs = [
         genre: "Rock",
         votes: 87,
         color: "blue",
-        voted: false
+        voted: false,
+        link: "https://www.youtube.com/results?search_query=Imagine+Dragons+Believer"
     },
 
     {
@@ -39,14 +45,29 @@ let songs = [
         genre: "Pop",
         votes: 74,
         color: "orange",
-        voted: false
+        voted: false,
+        link: "https://www.youtube.com/results?search_query=Ed+Sheeran+Perfect"
+    },
+
+    {
+        name: "Golden Hour",
+        artist: "JVKE",
+        genre: "Indie",
+        votes: 68,
+        color: "green",
+        voted: false,
+        link: "https://www.youtube.com/results?search_query=JVKE+Golden+Hour"
     }
+
 ];
 
 
-// SESSION DATA
+// ==========================================
+// JAM SESSION DATA
+// ==========================================
 
 let sessions = [
+
     {
         name: "Friday Night Jam",
         date: "October 5, 2026",
@@ -70,10 +91,73 @@ let sessions = [
         people: 24,
         joined: false
     }
+
 ];
 
 
+// ==========================================
+// MUSIC QUOTES
+// ==========================================
+
+const musicQuotes = [
+
+    {
+        quote: '"Where words fail, music speaks."',
+        author: "— Hans Christian Andersen"
+    },
+
+    {
+        quote: '"Music gives a soul to the universe."',
+        author: "— Plato"
+    },
+
+    {
+        quote: '"Music is the shorthand of emotion."',
+        author: "— Leo Tolstoy"
+    },
+
+    {
+        quote:
+            '"One good thing about music, when it hits you, you feel no pain."',
+        author: "— Bob Marley"
+    },
+
+    {
+        quote:
+            '"Music can change the world because it can change people."',
+        author: "— Bono"
+    },
+
+    {
+        quote:
+            '"Music is the universal language of mankind."',
+        author: "— Henry Wadsworth Longfellow"
+    },
+
+    {
+        quote:
+            '"Without music, life would be a mistake."',
+        author: "— Friedrich Nietzsche"
+    },
+
+    {
+        quote:
+            '"Music expresses that which cannot be put into words."',
+        author: "— Victor Hugo"
+    },
+
+    {
+        quote:
+            '"Music is what feelings sound like."',
+        author: "— Unknown"
+    }
+
+];
+
+
+// ==========================================
 // GET HTML ELEMENTS
+// ==========================================
 
 const songList =
     document.getElementById("songList");
@@ -91,13 +175,18 @@ const searchInput =
     document.getElementById("searchInput");
 
 
+// ==========================================
 // DISPLAY SONGS
+// ==========================================
 
 function displaySongs(list = songs) {
 
     songList.innerHTML = "";
 
-    list.forEach(function(song, index) {
+    list.forEach(function(song) {
+
+        const realIndex =
+            songs.indexOf(song);
 
         const songElement =
             document.createElement("div");
@@ -107,7 +196,7 @@ function displaySongs(list = songs) {
         songElement.innerHTML = `
 
             <div class="song-number">
-                ${index + 1}
+                ${realIndex + 1}
             </div>
 
             <div class="album-small ${song.color}">
@@ -132,14 +221,21 @@ function displaySongs(list = songs) {
 
             </div>
 
+            <a
+                href="${song.link}"
+                target="_blank"
+                class="listen-btn"
+            >
+                ▶ Listen
+            </a>
+
             <button
-                class="vote-btn ${
-                    song.voted ? "voted" : ""
-                }"
-                onclick="voteSong(${index})"
+                class="vote-btn ${song.voted ? "voted" : ""}"
+                onclick="voteSong(${realIndex})"
             >
 
                 ${song.voted ? "♥" : "♡"}
+
                 ${song.votes}
 
             </button>
@@ -154,44 +250,54 @@ function displaySongs(list = songs) {
 }
 
 
+// ==========================================
 // VOTE SONG
+// ==========================================
 
 function voteSong(index) {
 
     if (songs[index].voted) {
 
         songs[index].votes--;
+
         songs[index].voted = false;
 
     } else {
 
         songs[index].votes++;
+
         songs[index].voted = true;
 
     }
 
     songs.sort(function(a, b) {
+
         return b.votes - a.votes;
+
     });
 
     displaySongs();
-
 }
 
 
-// SEARCH SONGS
+// ==========================================
+// SEARCH
+// ==========================================
 
 searchInput.addEventListener(
     "input",
     function() {
 
         const search =
-            searchInput.value.toLowerCase();
+            searchInput.value
+            .toLowerCase()
+            .trim();
 
         const filtered =
             songs.filter(function(song) {
 
                 return (
+
                     song.name
                         .toLowerCase()
                         .includes(search)
@@ -207,6 +313,7 @@ searchInput.addEventListener(
                     song.genre
                         .toLowerCase()
                         .includes(search)
+
                 );
 
             });
@@ -217,7 +324,9 @@ searchInput.addEventListener(
 );
 
 
-// DISPLAY SESSIONS
+// ==========================================
+// DISPLAY JAM SESSIONS
+// ==========================================
 
 function displaySessions() {
 
@@ -225,13 +334,12 @@ function displaySessions() {
 
     sessions.forEach(function(session, index) {
 
-        const sessionElement =
+        const element =
             document.createElement("div");
 
-        sessionElement.className =
-            "session-card";
+        element.className = "session-card";
 
-        sessionElement.innerHTML = `
+        element.innerHTML = `
 
             <div class="session-date">
                 📅 ${session.date}
@@ -246,31 +354,27 @@ function displaySessions() {
             </p>
 
             <p>
-                👥 ${session.people} students attending
+                👥 ${session.people}
+                students attending
             </p>
 
             <button
-                class="join-btn ${
-                    session.joined
-                        ? "joined"
-                        : ""
-                }"
+                class="join-btn
+                ${session.joined ? "joined" : ""}"
                 onclick="joinSession(${index})"
             >
 
                 ${
                     session.joined
-                        ? "✓ Joined"
-                        : "Join Session"
+                    ? "✓ Joined"
+                    : "Join Session"
                 }
 
             </button>
 
         `;
 
-        sessionList.appendChild(
-            sessionElement
-        );
+        sessionList.appendChild(element);
 
     });
 
@@ -279,7 +383,9 @@ function displaySessions() {
 }
 
 
+// ==========================================
 // JOIN SESSION
+// ==========================================
 
 function joinSession(index) {
 
@@ -298,13 +404,12 @@ function joinSession(index) {
     }
 
     displaySessions();
-
 }
 
 
-// ==================================
+// ==========================================
 // ADD SONG MODAL
-// ==================================
+// ==========================================
 
 const songModal =
     document.getElementById("songModal");
@@ -336,7 +441,9 @@ closeSongModal.addEventListener(
 );
 
 
+// ==========================================
 // ADD SONG FORM
+// ==========================================
 
 const songForm =
     document.getElementById("songForm");
@@ -349,24 +456,40 @@ songForm.addEventListener(
         event.preventDefault();
 
         const name =
-            document.getElementById("songName").value;
+            document.getElementById(
+                "songName"
+            ).value.trim();
 
         const artist =
-            document.getElementById("artistName").value;
+            document.getElementById(
+                "artistName"
+            ).value.trim();
 
         const genre =
-            document.getElementById("genre").value;
+            document.getElementById(
+                "genre"
+            ).value;
 
 
         const colors = [
             "purple",
             "pink",
             "blue",
-            "orange"
+            "orange",
+            "green"
         ];
 
 
-        const newSong = {
+        const randomColor =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+
+        songs.push({
 
             name: name,
 
@@ -376,35 +499,44 @@ songForm.addEventListener(
 
             votes: 0,
 
-            color:
-                colors[
-                    Math.floor(
-                        Math.random() *
-                        colors.length
-                    )
-                ],
+            color: randomColor,
 
-            voted: false
+            voted: false,
 
-        };
+            link:
+                "https://www.youtube.com/results?search_query="
+                +
+                encodeURIComponent(
+                    name + " " + artist
+                )
 
+        });
 
-        songs.push(newSong);
 
         displaySongs();
 
 
         songForm.reset();
 
-        songModal.classList.remove("show");
+
+        songModal.classList.remove(
+            "show"
+        );
+
+
+        document
+            .getElementById("playlist")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
 
     }
 );
 
 
-// ==================================
-// CREATE SESSION
-// ==================================
+// ==========================================
+// CREATE SESSION MODAL
+// ==========================================
 
 const sessionModal =
     document.getElementById("sessionModal");
@@ -424,9 +556,7 @@ createSessionBtn.addEventListener(
     "click",
     function() {
 
-        sessionModal.classList.add(
-            "show"
-        );
+        sessionModal.classList.add("show");
 
     }
 );
@@ -436,20 +566,18 @@ closeSessionModal.addEventListener(
     "click",
     function() {
 
-        sessionModal.classList.remove(
-            "show"
-        );
+        sessionModal.classList.remove("show");
 
     }
 );
 
 
-// SESSION FORM
+// ==========================================
+// CREATE SESSION FORM
+// ==========================================
 
 const sessionForm =
-    document.getElementById(
-        "sessionForm"
-    );
+    document.getElementById("sessionForm");
 
 
 sessionForm.addEventListener(
@@ -462,7 +590,7 @@ sessionForm.addEventListener(
         const name =
             document.getElementById(
                 "sessionName"
-            ).value;
+            ).value.trim();
 
 
         const date =
@@ -474,19 +602,19 @@ sessionForm.addEventListener(
         const location =
             document.getElementById(
                 "sessionLocation"
-            ).value;
+            ).value.trim();
 
 
         const formattedDate =
             new Date(date)
-                .toLocaleDateString(
-                    "en-US",
-                    {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric"
-                    }
-                );
+            .toLocaleDateString(
+                "en-US",
+                {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            );
 
 
         sessions.push({
@@ -509,17 +637,25 @@ sessionForm.addEventListener(
 
         sessionForm.reset();
 
+
         sessionModal.classList.remove(
             "show"
         );
+
+
+        document
+            .getElementById("sessions")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
 
     }
 );
 
 
-// ==================================
+// ==========================================
 // DARK MODE
-// ==================================
+// ==========================================
 
 const darkModeBtn =
     document.getElementById(
@@ -544,9 +680,19 @@ darkModeBtn.addEventListener(
 
             darkModeBtn.innerText = "☀️";
 
+            localStorage.setItem(
+                "campusjam-theme",
+                "dark"
+            );
+
         } else {
 
             darkModeBtn.innerText = "🌙";
+
+            localStorage.setItem(
+                "campusjam-theme",
+                "light"
+            );
 
         }
 
@@ -554,15 +700,104 @@ darkModeBtn.addEventListener(
 );
 
 
-// ==================================
-// PLAY BUTTON
-// ==================================
+// ==========================================
+// LOAD SAVED THEME
+// ==========================================
+
+const savedTheme =
+    localStorage.getItem(
+        "campusjam-theme"
+    );
+
+
+if (savedTheme === "dark") {
+
+    document.body.classList.add("dark");
+
+    darkModeBtn.innerText = "☀️";
+
+}
+
+
+// ==========================================
+// MUSIC QUOTES
+// ==========================================
+
+const musicQuote =
+    document.getElementById(
+        "musicQuote"
+    );
+
+const quoteAuthor =
+    document.getElementById(
+        "quoteAuthor"
+    );
+
+const quoteBtn =
+    document.getElementById(
+        "quoteBtn"
+    );
+
+
+function showRandomQuote() {
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            musicQuotes.length
+        );
+
+
+    const selectedQuote =
+        musicQuotes[randomIndex];
+
+
+    musicQuote.style.opacity = "0";
+
+    quoteAuthor.style.opacity = "0";
+
+
+    setTimeout(function() {
+
+        musicQuote.innerText =
+            selectedQuote.quote;
+
+        quoteAuthor.innerText =
+            selectedQuote.author;
+
+
+        musicQuote.style.opacity = "1";
+
+        quoteAuthor.style.opacity = "1";
+
+    }, 200);
+
+}
+
+
+quoteBtn.addEventListener(
+    "click",
+    showRandomQuote
+);
+
+
+// ==========================================
+// MUSIC PLAYER
+// ==========================================
 
 const playBtn =
     document.getElementById("playBtn");
 
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
 
 let playing = false;
+
+let progress = 0;
+
+let playerTimer;
 
 
 playBtn.addEventListener(
@@ -571,24 +806,51 @@ playBtn.addEventListener(
 
         playing = !playing;
 
-        playBtn.innerText =
-            playing ? "Ⅱ" : "▶";
+
+        if (playing) {
+
+            playBtn.innerText = "Ⅱ";
+
+            playerTimer =
+                setInterval(
+                    function() {
+
+                        progress += 1;
+
+                        if (progress >= 100) {
+
+                            progress = 0;
+
+                        }
+
+                        progressBar.style.width =
+                            progress + "%";
+
+                    },
+                    100
+                );
+
+        } else {
+
+            playBtn.innerText = "▶";
+
+            clearInterval(playerTimer);
+
+        }
 
     }
 );
 
 
-// ==================================
-// CLOSE MODAL WHEN CLICKING OUTSIDE
-// ==================================
+// ==========================================
+// CLOSE MODALS
+// ==========================================
 
 window.addEventListener(
     "click",
     function(event) {
 
-        if (
-            event.target === songModal
-        ) {
+        if (event.target === songModal) {
 
             songModal.classList.remove(
                 "show"
@@ -596,9 +858,7 @@ window.addEventListener(
 
         }
 
-        if (
-            event.target === sessionModal
-        ) {
+        if (event.target === sessionModal) {
 
             sessionModal.classList.remove(
                 "show"
@@ -610,9 +870,33 @@ window.addEventListener(
 );
 
 
-// ==================================
-// START APPLICATION
-// ==================================
+// ==========================================
+// ESCAPE KEY CLOSE MODAL
+// ==========================================
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            songModal.classList.remove(
+                "show"
+            );
+
+            sessionModal.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// INITIALIZE APPLICATION
+// ==========================================
 
 displaySongs();
 
