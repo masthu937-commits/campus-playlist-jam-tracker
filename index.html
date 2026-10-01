@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusJam - Collaborative Music</title>
+    <title>CampusJam | Collaborative Campus Music</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ================= NAVBAR ================= -->
+
     <nav class="navbar">
 
         <div class="logo">
@@ -25,12 +27,15 @@
             <a href="#about">About</a>
         </div>
 
-        <button id="darkModeBtn">🌙</button>
+        <button id="darkModeBtn" class="theme-btn">
+            🌙
+        </button>
 
     </nav>
 
 
-    <!-- HERO -->
+    <!-- ================= HERO ================= -->
+
     <section class="hero" id="home">
 
         <div class="hero-content">
@@ -40,29 +45,23 @@
             </p>
 
             <h1>
-                Music sounds better
-                <span>together.</span>
+                Music sounds
+                <span>better together.</span>
             </h1>
 
             <p class="hero-text">
-                CampusJam is a collaborative music platform where
-                students can share songs, vote for their favorites
-                and join exciting jam sessions.
+                CampusJam is a collaborative campus music platform
+                where students can discover songs, vote for favorites,
+                share music and join exciting jam sessions.
             </p>
 
             <div class="hero-buttons">
 
-                <button
-                    class="primary-btn"
-                    id="addSongBtn"
-                >
+                <button class="primary-btn" id="addSongBtn">
                     + Add Song
                 </button>
 
-                <a
-                    href="#playlist"
-                    class="secondary-btn"
-                >
+                <a href="#playlist" class="secondary-btn">
                     Explore Playlist
                 </a>
 
@@ -70,24 +69,46 @@
 
         </div>
 
+
+        <!-- MUSIC PLAYER -->
+
         <div class="music-card">
 
             <div class="album">
                 🎧
             </div>
 
-            <h3>Campus Vibes</h3>
+            <h3 id="playerTitle">
+                Campus Vibes
+            </h3>
 
-            <p>Today's community playlist</p>
+            <p id="playerArtist">
+                Today's community playlist
+            </p>
 
             <div class="music-progress">
-                <div></div>
+                <div id="progressBar"></div>
+            </div>
+
+            <div class="music-time">
+                <span>0:00</span>
+                <span>3:45</span>
             </div>
 
             <div class="music-controls">
-                <span>↶</span>
-                <button id="playBtn">▶</button>
-                <span>↷</span>
+
+                <button class="control-btn">
+                    ⏮
+                </button>
+
+                <button id="playBtn" class="play-btn">
+                    ▶
+                </button>
+
+                <button class="control-btn">
+                    ⏭
+                </button>
+
             </div>
 
         </div>
@@ -95,12 +116,13 @@
     </section>
 
 
-    <!-- STATS -->
+    <!-- ================= STATS ================= -->
+
     <section class="stats">
 
         <div class="stat">
             <h2 id="songCount">0</h2>
-            <p>Songs</p>
+            <p>Community Songs</p>
         </div>
 
         <div class="stat">
@@ -121,24 +143,53 @@
     </section>
 
 
-    <!-- PLAYLIST -->
-    <section
-        class="section"
-        id="playlist"
-    >
+    <!-- ================= QUOTE ================= -->
+
+    <section class="quote-section">
+
+        <div class="quote-icon">
+            ♪
+        </div>
+
+        <p class="quote-label">
+            CAMPUSJAM • MUSIC OF THE DAY
+        </p>
+
+        <h2 id="musicQuote">
+            "Where words fail, music speaks."
+        </h2>
+
+        <p id="quoteAuthor">
+            — Hans Christian Andersen
+        </p>
+
+        <button id="quoteBtn" class="quote-btn">
+            ✨ New Quote
+        </button>
+
+    </section>
+
+
+    <!-- ================= PLAYLIST ================= -->
+
+    <section class="section" id="playlist">
 
         <div class="section-header">
 
             <div>
+
                 <p class="section-label">
                     COMMUNITY PLAYLIST
                 </p>
 
-                <h2>Campus Playlist</h2>
+                <h2>
+                    Campus Playlist
+                </h2>
 
                 <p>
                     Songs recommended and voted by students.
                 </p>
+
             </div>
 
             <input
@@ -153,13 +204,13 @@
         <div
             class="song-list"
             id="songList"
-        >
-        </div>
+        ></div>
 
     </section>
 
 
-    <!-- JAM SESSIONS -->
+    <!-- ================= JAM SESSIONS ================= -->
+
     <section
         class="section sessions-section"
         id="sessions"
@@ -168,15 +219,19 @@
         <div class="section-header">
 
             <div>
+
                 <p class="section-label">
                     MUSIC COMMUNITY
                 </p>
 
-                <h2>Upcoming Jam Sessions</h2>
+                <h2>
+                    Upcoming Jam Sessions
+                </h2>
 
                 <p>
                     Meet other students and make music together.
                 </p>
+
             </div>
 
             <button
@@ -192,17 +247,14 @@
         <div
             class="session-grid"
             id="sessionList"
-        >
-        </div>
+        ></div>
 
     </section>
 
 
-    <!-- ABOUT -->
-    <section
-        class="about"
-        id="about"
-    >
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about" id="about">
 
         <div>
 
@@ -211,22 +263,54 @@
             </p>
 
             <h2>
-                Built for students who
-                love music.
+                Built for students who love music.
             </h2>
 
         </div>
 
-        <p>
-            CampusJam makes it easy for students to discover
-            music, share playlists, find musicians and organize
-            jam sessions on campus.
-        </p>
+        <div class="about-content">
+
+            <p>
+                CampusJam brings your campus music community
+                together in one place.
+            </p>
+
+            <p>
+                Discover new songs, vote for your favorite tracks,
+                meet musicians and participate in live jam sessions.
+            </p>
+
+            <div class="features">
+
+                <div>
+                    🎵
+                    <strong>Discover</strong>
+                </div>
+
+                <div>
+                    ❤️
+                    <strong>Vote</strong>
+                </div>
+
+                <div>
+                    🎸
+                    <strong>Jam</strong>
+                </div>
+
+                <div>
+                    👥
+                    <strong>Connect</strong>
+                </div>
+
+            </div>
+
+        </div>
 
     </section>
 
 
-    <!-- FOOTER -->
+    <!-- ================= FOOTER ================= -->
+
     <footer>
 
         <div class="logo">
@@ -234,13 +318,14 @@
         </div>
 
         <p>
-            © 2026 CampusJam. Built for music lovers.
+            © 2026 CampusJam • Built for music lovers.
         </p>
 
     </footer>
 
 
-    <!-- ADD SONG MODAL -->
+    <!-- ================= ADD SONG MODAL ================= -->
+
     <div
         class="modal"
         id="songModal"
@@ -255,7 +340,9 @@
                 ×
             </button>
 
-            <h2>Add a Song</h2>
+            <h2>
+                Add a Song
+            </h2>
 
             <p>
                 Add your favorite song to the campus playlist.
@@ -269,10 +356,9 @@
                     <input
                         type="text"
                         id="songName"
-                        placeholder="Enter song name"
+                        placeholder="Example: Perfect"
                         required
                     >
-
                 </label>
 
                 <label>
@@ -281,10 +367,9 @@
                     <input
                         type="text"
                         id="artistName"
-                        placeholder="Enter artist name"
+                        placeholder="Example: Ed Sheeran"
                         required
                     >
-
                 </label>
 
                 <label>
@@ -292,25 +377,12 @@
 
                     <select id="genre">
 
-                        <option value="Pop">
-                            Pop
-                        </option>
-
-                        <option value="Rock">
-                            Rock
-                        </option>
-
-                        <option value="Indie">
-                            Indie
-                        </option>
-
-                        <option value="Hip Hop">
-                            Hip Hop
-                        </option>
-
-                        <option value="Lo-fi">
-                            Lo-fi
-                        </option>
+                        <option>Pop</option>
+                        <option>Rock</option>
+                        <option>Indie</option>
+                        <option>Hip Hop</option>
+                        <option>Lo-fi</option>
+                        <option>Classical</option>
 
                     </select>
 
@@ -330,7 +402,8 @@
     </div>
 
 
-    <!-- SESSION MODAL -->
+    <!-- ================= CREATE SESSION MODAL ================= -->
+
     <div
         class="modal"
         id="sessionModal"
@@ -345,7 +418,9 @@
                 ×
             </button>
 
-            <h2>Create Jam Session</h2>
+            <h2>
+                Create Jam Session
+            </h2>
 
             <p>
                 Create a new music session for students.
@@ -362,7 +437,6 @@
                         placeholder="Friday Night Jam"
                         required
                     >
-
                 </label>
 
                 <label>
@@ -373,7 +447,6 @@
                         id="sessionDate"
                         required
                     >
-
                 </label>
 
                 <label>
@@ -385,7 +458,6 @@
                         placeholder="College Auditorium"
                         required
                     >
-
                 </label>
 
                 <button
@@ -402,7 +474,10 @@
     </div>
 
 
+    <!-- ================= JAVASCRIPT ================= -->
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
