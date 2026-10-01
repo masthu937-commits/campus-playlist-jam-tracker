@@ -1,1146 +1,668 @@
-/* =========================================
-   CAMPUSJAM APPLICATION
-========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html {
+    scroll-behavior: smooth;
+}
 
-/* =========================================
-   DATA
-========================================= */
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7fb;
+    color: #171525;
+    line-height: 1.6;
+    transition: 0.3s;
+}
 
-const defaultSongs = [
-    {
-        id: 1,
-        title: "Blinding Lights",
-        artist: "The Weeknd",
-        genre: "Pop",
-        votes: 124,
-        art: "art-purple",
-        voted: false
-    },
-    {
-        id: 2,
-        title: "Until I Found You",
-        artist: "Stephen Sanchez",
-        genre: "Indie",
-        votes: 98,
-        art: "art-pink",
-        voted: false
-    },
-    {
-        id: 3,
-        title: "Believer",
-        artist: "Imagine Dragons",
-        genre: "Rock",
-        votes: 87,
-        art: "art-blue",
-        voted: false
-    },
-    {
-        id: 4,
-        title: "Perfect",
-        artist: "Ed Sheeran",
-        genre: "Pop",
-        votes: 74,
-        art: "art-orange",
-        voted: false
-    },
-    {
-        id: 5,
-        title: "Daylight",
-        artist: "David Kushner",
-        genre: "Indie",
-        votes: 61,
-        art: "art-purple",
-        voted: false
-    }
-];
+body.dark {
+    background: #11101a;
+    color: white;
+}
 
+.navbar {
+    height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-const defaultSessions = [
-    {
-        id: 1,
-        name: "Friday Night Jam",
-        date: "2026-10-05",
-        time: "18:30",
-        location: "College Auditorium",
-        members: 18,
-        joined: false
-    },
-    {
-        id: 2,
-        name: "Acoustic Evening",
-        date: "2026-10-09",
-        time: "17:00",
-        location: "Campus Garden",
-        members: 12,
-        joined: false
-    },
-    {
-        id: 3,
-        name: "Open Mic Night",
-        date: "2026-10-15",
-        time: "19:00",
-        location: "Student Activity Center",
-        members: 24,
-        joined: false
-    }
-];
+.dark .navbar {
+    background: #191824;
+    border-color: #302d3e;
+}
 
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    color: #222;
+}
 
-const defaultActivities = [
-    {
-        icon: "♫",
-        text: "Sneha added",
-        item: "Until I Found You",
-        time: "5 min ago"
-    },
-    {
-        icon: "🎸",
-        text: "Arjun created",
-        item: "Friday Night Jam",
-        time: "18 min ago"
-    },
-    {
-        icon: "♡",
-        text: "Rahul voted for",
-        item: "Blinding Lights",
-        time: "32 min ago"
-    },
-    {
-        icon: "♙",
-        text: "Priya joined",
-        item: "Open Mic Night",
-        time: "1 hr ago"
-    }
-];
+.logo span {
+    color: #6c4cff;
+}
 
+.dark .logo {
+    color: white;
+}
 
-/* =========================================
-   APPLICATION STATE
-========================================= */
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
 
-let songs =
-    JSON.parse(
-        localStorage.getItem("campusjam_songs")
-    ) || defaultSongs;
+.nav-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
 
-let sessions =
-    JSON.parse(
-        localStorage.getItem("campusjam_sessions")
-    ) || defaultSessions;
+.nav-links a:hover {
+    color: #6c4cff;
+}
 
-let contributions =
-    Number(
-        localStorage.getItem("campusjam_contributions")
-    ) || 12;
+#darkModeBtn {
+    border: none;
+    background: #f1efff;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
+.hero {
+    min-height: 550px;
+    padding: 80px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            #e8ddff,
+            transparent 30%
+        ),
+        #f7f7fb;
+}
 
-/* =========================================
-   DOM
-========================================= */
+.dark .hero {
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            #2c2450,
+            transparent 30%
+        ),
+        #11101a;
+}
 
-const songList =
-    document.getElementById("songList");
+.hero-content {
+    max-width: 650px;
+}
 
-const sessionList =
-    document.getElementById("sessionList");
+.small-title,
+.section-label {
+    color: #6c4cff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
 
-const totalSongs =
-    document.getElementById("totalSongs");
+.hero h1 {
+    font-size: 55px;
+    line-height: 1.1;
+    margin: 15px 0;
+}
 
-const totalSessions =
-    document.getElementById("totalSessions");
+.hero h1 span {
+    color: #6c4cff;
+}
 
-const myContributions =
-    document.getElementById("myContributions");
+.hero-text {
+    color: #777;
+    font-size: 16px;
+    max-width: 570px;
+}
 
-const songSearch =
-    document.getElementById("songSearch");
+.dark .hero-text {
+    color: #aaa;
+}
 
-const genreFilter =
-    document.getElementById("genreFilter");
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
 
-const globalSearch =
-    document.getElementById("globalSearch");
-
-const toast =
-    document.getElementById("toast");
-
-const toastTitle =
-    document.getElementById("toastTitle");
-
-const toastMessage =
-    document.getElementById("toastMessage");
-
-
-/* =========================================
-   STORAGE
-========================================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "campusjam_songs",
-        JSON.stringify(songs)
+.primary-btn {
+    border: none;
+    background: linear-gradient(
+        135deg,
+        #6c4cff,
+        #925cff
     );
-
-    localStorage.setItem(
-        "campusjam_sessions",
-        JSON.stringify(sessions)
-    );
-
-    localStorage.setItem(
-        "campusjam_contributions",
-        contributions
-    );
+    color: white;
+    padding: 13px 22px;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow:
+        0 8px 20px
+        rgba(108, 76, 255, 0.25);
 }
 
+.primary-btn:hover {
+    transform: translateY(-2px);
+}
 
-/* =========================================
-   SONG RENDERING
-========================================= */
+.secondary-btn {
+    border: 1px solid #ddd;
+    background: white;
+    color: #444;
+    padding: 13px 22px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-function renderSongs() {
+.dark .secondary-btn {
+    background: #1d1b29;
+    border-color: #39354a;
+    color: white;
+}
 
-    const search =
-        songSearch.value
-            .trim()
-            .toLowerCase();
+.music-card {
+    width: 310px;
+    background: white;
+    border-radius: 25px;
+    padding: 25px;
+    text-align: center;
+    box-shadow:
+        0 25px 60px
+        rgba(50, 30, 100, 0.15);
+}
 
-    const genre =
-        genreFilter.value;
+.dark .music-card {
+    background: #1c1a27;
+}
 
+.album {
+    height: 220px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    background:
+        linear-gradient(
+            135deg,
+            #6c4cff,
+            #ef4f9b
+        );
+}
 
-    const filteredSongs =
-        songs
-            .filter(song => {
+.music-card h3 {
+    margin-top: 20px;
+}
 
-                const matchesSearch =
-                    song.title
-                        .toLowerCase()
-                        .includes(search) ||
+.music-card p {
+    color: #888;
+    font-size: 12px;
+}
 
-                    song.artist
-                        .toLowerCase()
-                        .includes(search);
+.music-progress {
+    height: 5px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 20px 0;
+}
 
-                const matchesGenre =
-                    genre === "all" ||
-                    song.genre === genre;
+.music-progress div {
+    height: 100%;
+    width: 60%;
+    background: #6c4cff;
+    border-radius: 10px;
+}
 
-                return (
-                    matchesSearch &&
-                    matchesGenre
-                );
-            })
-            .sort(
-                (a, b) =>
-                    b.votes - a.votes
-            );
+.music-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    color: #777;
+}
 
+.music-controls button {
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #6c4cff;
+    color: white;
+    cursor: pointer;
+}
 
-    songList.innerHTML = "";
+.stats {
+    max-width: 1200px;
+    margin: -30px auto 50px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: white;
+    border-radius: 18px;
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.07);
+}
 
+.dark .stats {
+    background: #1c1a27;
+}
 
-    if (filteredSongs.length === 0) {
+.stat {
+    text-align: center;
+    padding: 25px;
+    border-right: 1px solid #eee;
+}
 
-        songList.innerHTML = `
+.dark .stat {
+    border-color: #302d3e;
+}
 
-            <div class="empty-state">
+.stat:last-child {
+    border-right: none;
+}
 
-                <p>
-                    🎵 No songs found.
-                </p>
+.stat h2 {
+    color: #6c4cff;
+    font-size: 28px;
+}
 
-                <small>
-                    Try another search.
-                </small>
+.stat p {
+    color: #888;
+    font-size: 12px;
+}
 
-            </div>
+.section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 70px 20px;
+}
 
-        `;
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
-        return;
+.section-header h2 {
+    font-size: 30px;
+    margin: 5px 0;
+}
+
+.section-header p:last-child {
+    color: #888;
+    font-size: 13px;
+}
+
+#searchInput {
+    width: 230px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.dark #searchInput {
+    background: #1c1a27;
+    color: white;
+    border-color: #39354a;
+}
+
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.song {
+    display: grid;
+    grid-template-columns: 50px 55px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    padding: 13px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.dark .song {
+    background: #1c1a27;
+    border-color: #302d3e;
+}
+
+.song-number {
+    color: #aaa;
+    text-align: center;
+}
+
+.album-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 23px;
+}
+
+.purple {
+    background: linear-gradient(135deg, #6c4cff, #b157ff);
+}
+
+.pink {
+    background: linear-gradient(135deg, #ed4f9a, #ff779a);
+}
+
+.blue {
+    background: linear-gradient(135deg, #367cf5, #5bbcff);
+}
+
+.orange {
+    background: linear-gradient(135deg, #ff7a42, #ffc05a);
+}
+
+.song-info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.song-info small {
+    color: #888;
+}
+
+.genre {
+    display: inline-block;
+    color: #6c4cff;
+    background: #eeeaff;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-size: 9px;
+    margin-top: 3px;
+}
+
+.vote-btn {
+    border: none;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.vote-btn:hover,
+.vote-btn.voted {
+    color: #ed4f9a;
+}
+
+.sessions-section {
+    max-width: none;
+    background: white;
+    padding-left: 8%;
+    padding-right: 8%;
+}
+
+.dark .sessions-section {
+    background: #191824;
+}
+
+.session-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.session-card {
+    padding: 22px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    background: #fafaff;
+}
+
+.dark .session-card {
+    background: #1c1a27;
+    border-color: #302d3e;
+}
+
+.session-date {
+    color: #6c4cff;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.session-card h3 {
+    margin: 10px 0;
+}
+
+.session-card p {
+    color: #888;
+    font-size: 11px;
+}
+
+.join-btn {
+    margin-top: 15px;
+    border: none;
+    background: #eeeaff;
+    color: #6c4cff;
+    padding: 8px 13px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.join-btn.joined {
+    background: #dff7e9;
+    color: #159456;
+}
+
+.about {
+    max-width: 1200px;
+    margin: auto;
+    padding: 90px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+}
+
+.about h2 {
+    font-size: 35px;
+}
+
+.about > p {
+    color: #777;
+    font-size: 15px;
+}
+
+footer {
+    padding: 30px 8%;
+    background: #171525;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer p {
+    color: #aaa;
+    font-size: 11px;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+    padding: 20px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    position: relative;
+}
+
+.dark .modal-box {
+    background: #1c1a27;
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 12px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+}
+
+.modal-box h2 {
+    margin-bottom: 5px;
+}
+
+.modal-box > p {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.modal-box label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.modal-box input,
+.modal-box select {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.dark .modal-box input,
+.dark .modal-box select {
+    background: #11101a;
+    color: white;
+    border-color: #39354a;
+}
+
+.full {
+    width: 100%;
+}
+
+@media (max-width: 800px) {
+
+    .navbar {
+        padding: 0 20px;
     }
 
-
-    filteredSongs.forEach(
-        (song, index) => {
-
-            const element =
-                document.createElement("div");
-
-            element.className = "song";
-
-
-            element.innerHTML = `
-
-                <span class="song-number">
-                    ${String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div
-                    class="album-art ${song.art}"
-                >
-                    ♪
-                </div>
-
-                <div class="song-info">
-
-                    <strong>
-                        ${escapeHTML(song.title)}
-                    </strong>
-
-                    <small>
-                        ${escapeHTML(song.artist)}
-                    </small>
-
-                    <br>
-
-                    <span class="genre-tag">
-                        ${escapeHTML(song.genre)}
-                    </span>
-
-                </div>
-
-                <button
-                    class="vote ${song.voted ? "voted" : ""}"
-                    data-id="${song.id}"
-                >
-                    ${song.voted ? "♥" : "♡"}
-                    ${song.votes}
-                </button>
-
-            `;
-
-
-            songList.appendChild(element);
-
-        }
-    );
-
-
-    document
-        .querySelectorAll(".vote")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    voteSong(
-                        Number(
-                            button.dataset.id
-                        )
-                    );
-
-                }
-            );
-
-        });
-
-
-    totalSongs.textContent =
-        songs.length;
-
-}
-
-
-/* =========================================
-   VOTE
-========================================= */
-
-function voteSong(id) {
-
-    const song =
-        songs.find(
-            item => item.id === id
-        );
-
-    if (!song) return;
-
-
-    if (song.voted) {
-
-        song.votes--;
-
-        song.voted = false;
-
-        showToast(
-            "Vote removed",
-            `Removed your vote from ${song.title}.`
-        );
-
-    } else {
-
-        song.votes++;
-
-        song.voted = true;
-
-        contributions++;
-
-        showToast(
-            "Vote added",
-            `You voted for ${song.title}.`
-        );
-
+    .nav-links {
+        display: none;
     }
 
-
-    saveData();
-
-    renderSongs();
-
-    updateStats();
-
-}
-
-
-/* =========================================
-   SESSIONS
-========================================= */
-
-function renderSessions() {
-
-    sessionList.innerHTML = "";
-
-
-    const sorted =
-        [...sessions].sort(
-            (a, b) =>
-                new Date(a.date) -
-                new Date(b.date)
-        );
-
-
-    sorted
-        .slice(0, 4)
-        .forEach(session => {
-
-            const date =
-                new Date(
-                    session.date
-                );
-
-
-            const day =
-                date.getDate();
-
-
-            const month =
-                date.toLocaleString(
-                    "en-US",
-                    {
-                        month: "short"
-                    }
-                );
-
-
-            const element =
-                document.createElement("div");
-
-
-            element.className =
-                "session";
-
-
-            element.innerHTML = `
-
-                <div class="session-date">
-
-                    <strong>
-                        ${day}
-                    </strong>
-
-                    <small>
-                        ${month.toUpperCase()}
-                    </small>
-
-                </div>
-
-                <div>
-
-                    <h3>
-                        ${escapeHTML(session.name)}
-                    </h3>
-
-                    <p>
-                        🕐 ${session.time}
-                    </p>
-
-                    <p>
-                        📍 ${escapeHTML(session.location)}
-                    </p>
-
-                    <p>
-                        👥 ${session.members} attending
-                    </p>
-
-                    <button
-                        class="join-button ${
-                            session.joined
-                                ? "joined"
-                                : ""
-                        }"
-                        data-id="${session.id}"
-                    >
-                        ${
-                            session.joined
-                                ? "✓ Joined"
-                                : "Join Session"
-                        }
-                    </button>
-
-                </div>
-
-            `;
-
-
-            sessionList.appendChild(element);
-
-        });
-
-
-    document
-        .querySelectorAll(".join-button")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    joinSession(
-                        Number(
-                            button.dataset.id
-                        )
-                    );
-
-                }
-            );
-
-        });
-
-
-    totalSessions.textContent =
-        sessions.length;
-
-}
-
-
-/* =========================================
-   JOIN SESSION
-========================================= */
-
-function joinSession(id) {
-
-    const session =
-        sessions.find(
-            item => item.id === id
-        );
-
-    if (!session) return;
-
-
-    if (session.joined) {
-
-        session.joined = false;
-
-        session.members--;
-
-        showToast(
-            "Left session",
-            `You left ${session.name}.`
-        );
-
-    } else {
-
-        session.joined = true;
-
-        session.members++;
-
-        contributions++;
-
-        showToast(
-            "Session joined",
-            `You're joining ${session.name}.`
-        );
-
+    .hero {
+        flex-direction: column;
+        padding: 60px 20px;
+        text-align: center;
     }
 
-
-    saveData();
-
-    renderSessions();
-
-    updateStats();
-
-}
-
-
-/* =========================================
-   ADD SONG MODAL
-========================================= */
-
-const songModal =
-    document.getElementById("songModal");
-
-const songForm =
-    document.getElementById("songForm");
-
-
-function openModal(modal) {
-
-    modal.classList.add("active");
-
-    document.body.style.overflow =
-        "hidden";
-}
-
-
-function closeModal(modal) {
-
-    modal.classList.remove("active");
-
-    document.body.style.overflow =
-        "";
-}
-
-
-document
-    .getElementById("quickAdd")
-    .addEventListener(
-        "click",
-        () => openModal(songModal)
-    );
-
-
-document
-    .getElementById("viewAllSongs")
-    .addEventListener(
-        "click",
-        () => {
-
-            document
-                .getElementById("playlist")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-
-        }
-    );
-
-
-songForm.addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-
-        const title =
-            document
-                .getElementById("songTitle")
-                .value.trim();
-
-
-        const artist =
-            document
-                .getElementById("songArtist")
-                .value.trim();
-
-
-        const genre =
-            document
-                .getElementById("songGenre")
-                .value;
-
-
-        const arts = [
-            "art-purple",
-            "art-pink",
-            "art-blue",
-            "art-orange"
-        ];
-
-
-        const newSong = {
-
-            id: Date.now(),
-
-            title,
-
-            artist,
-
-            genre,
-
-            votes: 0,
-
-            art:
-                arts[
-                    Math.floor(
-                        Math.random() *
-                        arts.length
-                    )
-                ],
-
-            voted: false
-
-        };
-
-
-        songs.push(newSong);
-
-        contributions++;
-
-        saveData();
-
-        renderSongs();
-
-        updateStats();
-
-
-        songForm.reset();
-
-        closeModal(songModal);
-
-
-        showToast(
-            "Song added",
-            `${title} was added to Campus Playlist.`
-        );
-
+    .hero h1 {
+        font-size: 40px;
     }
-);
 
-
-/* =========================================
-   CREATE SESSION
-========================================= */
-
-const sessionModal =
-    document.getElementById("sessionModal");
-
-const sessionForm =
-    document.getElementById("sessionForm");
-
-
-document
-    .getElementById("createSessionButton")
-    .addEventListener(
-        "click",
-        () => openModal(sessionModal)
-    );
-
-
-sessionForm.addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-
-        const name =
-            document
-                .getElementById("sessionName")
-                .value.trim();
-
-
-        const date =
-            document
-                .getElementById("sessionDate")
-                .value;
-
-
-        const time =
-            document
-                .getElementById("sessionTime")
-                .value;
-
-
-        const location =
-            document
-                .getElementById("sessionLocation")
-                .value.trim();
-
-
-        const newSession = {
-
-            id: Date.now(),
-
-            name,
-
-            date,
-
-            time,
-
-            location,
-
-            members: 1,
-
-            joined: true
-
-        };
-
-
-        sessions.push(newSession);
-
-        contributions++;
-
-        saveData();
-
-        renderSessions();
-
-        updateStats();
-
-
-        sessionForm.reset();
-
-        closeModal(sessionModal);
-
-
-        showToast(
-            "Jam created",
-            `${name} is now open for the campus.`
-        );
-
+    .hero-buttons {
+        justify-content: center;
     }
-);
 
-
-/* =========================================
-   CLOSE MODALS
-========================================= */
-
-document
-    .querySelectorAll(".close-modal")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const id =
-                    button.dataset.close;
-
-                closeModal(
-                    document.getElementById(id)
-                );
-
-            }
-        );
-
-    });
-
-
-document
-    .querySelectorAll(".modal")
-    .forEach(modal => {
-
-        modal.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target === modal
-                ) {
-
-                    closeModal(modal);
-
-                }
-
-            }
-        );
-
-    });
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            document
-                .querySelectorAll(
-                    ".modal.active"
-                )
-                .forEach(modal =>
-                    closeModal(modal)
-                );
-
-        }
-
+    .music-card {
+        width: 100%;
+        max-width: 320px;
     }
-);
 
-
-/* =========================================
-   SEARCH
-========================================= */
-
-songSearch.addEventListener(
-    "input",
-    renderSongs
-);
-
-
-genreFilter.addEventListener(
-    "change",
-    renderSongs
-);
-
-
-/* Global search */
-
-globalSearch.addEventListener(
-    "input",
-    event => {
-
-        const query =
-            event.target.value
-                .toLowerCase()
-                .trim();
-
-
-        if (!query) return;
-
-
-        const matchingSong =
-            songs.find(song =>
-                song.title
-                    .toLowerCase()
-                    .includes(query) ||
-
-                song.artist
-                    .toLowerCase()
-                    .includes(query)
-            );
-
-
-        if (matchingSong) {
-
-            document
-                .getElementById("playlist")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-
-
-            songSearch.value =
-                query;
-
-            renderSongs();
-
-        }
-
+    .stats {
+        margin: 20px;
+        grid-template-columns: repeat(2, 1fr);
     }
-);
 
+    .stat {
+        border-bottom: 1px solid #eee;
+    }
 
-/* =========================================
-   DARK MODE
-========================================= */
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 
-const themeToggle =
-    document.getElementById("themeToggle");
+    #searchInput {
+        width: 100%;
+    }
 
+    .session-grid {
+        grid-template-columns: 1fr;
+    }
 
-const savedTheme =
-    localStorage.getItem(
-        "campusjam_theme"
-    );
+    .about {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
 
-
-if (savedTheme === "dark") {
-
-    document.body.classList.add("dark");
-
-    themeToggle.textContent = "☾";
+    footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
 
 }
 
+@media (max-width: 500px) {
 
-themeToggle.addEventListener(
-    "click",
-    () => {
-
-        document.body.classList.toggle(
-            "dark"
-        );
-
-
-        const dark =
-            document.body.classList.contains(
-                "dark"
-            );
-
-
-        themeToggle.textContent =
-            dark ? "☾" : "☀";
-
-
-        localStorage.setItem(
-            "campusjam_theme",
-            dark ? "dark" : "light"
-        );
-
+    .song {
+        grid-template-columns: 25px 45px 1fr auto;
+        gap: 8px;
     }
-);
 
-
-/* =========================================
-   MOBILE SIDEBAR
-========================================= */
-
-const mobileMenu =
-    document.getElementById("mobileMenu");
-
-const sidebar =
-    document.getElementById("sidebar");
-
-
-mobileMenu.addEventListener(
-    "click",
-    () => {
-
-        sidebar.classList.toggle(
-            "open"
-        );
-
+    .song-number {
+        font-size: 10px;
     }
-);
 
-
-document
-    .querySelectorAll(".nav-item")
-    .forEach(item => {
-
-        item.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(
-                        ".nav-item"
-                    )
-                    .forEach(nav =>
-                        nav.classList.remove(
-                            "active"
-                        )
-                    );
-
-
-                item.classList.add(
-                    "active"
-                );
-
-
-                sidebar.classList.remove(
-                    "open"
-                );
-
-            }
-        );
-
-    });
-
-
-/* =========================================
-   STATS
-========================================= */
-
-function updateStats() {
-
-    totalSongs.textContent =
-        songs.length;
-
-    totalSessions.textContent =
-        sessions.length;
-
-    myContributions.textContent =
-        contributions;
+    .song-info strong {
+        font-size: 11px;
+    }
 
 }
-
-
-/* =========================================
-   TOAST
-========================================= */
-
-let toastTimer;
-
-
-function showToast(
-    title,
-    message
-) {
-
-    toastTitle.textContent =
-        title;
-
-    toastMessage.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            3000
-        );
-
-}
-
-
-/* =========================================
-   SECURITY HELPER
-========================================= */
-
-function escapeHTML(value) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.textContent =
-        value;
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================
-   INITIALIZE
-========================================= */
-
-function initializeApp() {
-
-    renderSongs();
-
-    renderSessions();
-
-    updateStats();
-
-}
-
-
-initializeApp();
