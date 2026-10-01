@@ -1,668 +1,619 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+// ================================
+// CAMPUSJAM JAVASCRIPT
+// ================================
+
+
+// SONG DATA
+
+let songs = [
+    {
+        name: "Blinding Lights",
+        artist: "The Weeknd",
+        genre: "Pop",
+        votes: 124,
+        color: "purple",
+        voted: false
+    },
+
+    {
+        name: "Until I Found You",
+        artist: "Stephen Sanchez",
+        genre: "Indie",
+        votes: 98,
+        color: "pink",
+        voted: false
+    },
+
+    {
+        name: "Believer",
+        artist: "Imagine Dragons",
+        genre: "Rock",
+        votes: 87,
+        color: "blue",
+        voted: false
+    },
+
+    {
+        name: "Perfect",
+        artist: "Ed Sheeran",
+        genre: "Pop",
+        votes: 74,
+        color: "orange",
+        voted: false
+    }
+];
+
+
+// SESSION DATA
+
+let sessions = [
+    {
+        name: "Friday Night Jam",
+        date: "October 5, 2026",
+        location: "College Auditorium",
+        people: 18,
+        joined: false
+    },
+
+    {
+        name: "Acoustic Evening",
+        date: "October 9, 2026",
+        location: "Campus Garden",
+        people: 12,
+        joined: false
+    },
+
+    {
+        name: "Open Mic Night",
+        date: "October 15, 2026",
+        location: "Student Activity Center",
+        people: 24,
+        joined: false
+    }
+];
+
+
+// GET HTML ELEMENTS
+
+const songList =
+    document.getElementById("songList");
+
+const sessionList =
+    document.getElementById("sessionList");
+
+const songCount =
+    document.getElementById("songCount");
+
+const sessionCount =
+    document.getElementById("sessionCount");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+// DISPLAY SONGS
+
+function displaySongs(list = songs) {
+
+    songList.innerHTML = "";
+
+    list.forEach(function(song, index) {
+
+        const songElement =
+            document.createElement("div");
+
+        songElement.className = "song";
+
+        songElement.innerHTML = `
+
+            <div class="song-number">
+                ${index + 1}
+            </div>
+
+            <div class="album-small ${song.color}">
+                ♪
+            </div>
+
+            <div class="song-info">
+
+                <strong>
+                    ${song.name}
+                </strong>
+
+                <small>
+                    ${song.artist}
+                </small>
+
+                <br>
+
+                <span class="genre">
+                    ${song.genre}
+                </span>
+
+            </div>
+
+            <button
+                class="vote-btn ${
+                    song.voted ? "voted" : ""
+                }"
+                onclick="voteSong(${index})"
+            >
+
+                ${song.voted ? "♥" : "♡"}
+                ${song.votes}
+
+            </button>
+
+        `;
+
+        songList.appendChild(songElement);
+
+    });
+
+    songCount.innerText = songs.length;
 }
 
-html {
-    scroll-behavior: smooth;
+
+// VOTE SONG
+
+function voteSong(index) {
+
+    if (songs[index].voted) {
+
+        songs[index].votes--;
+        songs[index].voted = false;
+
+    } else {
+
+        songs[index].votes++;
+        songs[index].voted = true;
+
+    }
+
+    songs.sort(function(a, b) {
+        return b.votes - a.votes;
+    });
+
+    displaySongs();
+
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f7f7fb;
-    color: #171525;
-    line-height: 1.6;
-    transition: 0.3s;
-}
 
-body.dark {
-    background: #11101a;
-    color: white;
-}
+// SEARCH SONGS
 
-.navbar {
-    height: 70px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 7%;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+searchInput.addEventListener(
+    "input",
+    function() {
 
-.dark .navbar {
-    background: #191824;
-    border-color: #302d3e;
-}
+        const search =
+            searchInput.value.toLowerCase();
 
-.logo {
-    font-size: 21px;
-    font-weight: bold;
-    color: #222;
-}
+        const filtered =
+            songs.filter(function(song) {
 
-.logo span {
-    color: #6c4cff;
-}
+                return (
+                    song.name
+                        .toLowerCase()
+                        .includes(search)
 
-.dark .logo {
-    color: white;
-}
+                    ||
 
-.nav-links {
-    display: flex;
-    gap: 30px;
-}
+                    song.artist
+                        .toLowerCase()
+                        .includes(search)
 
-.nav-links a {
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: bold;
-}
+                    ||
 
-.nav-links a:hover {
-    color: #6c4cff;
-}
+                    song.genre
+                        .toLowerCase()
+                        .includes(search)
+                );
 
-#darkModeBtn {
-    border: none;
-    background: #f1efff;
-    padding: 9px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+            });
 
-.hero {
-    min-height: 550px;
-    padding: 80px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 60px;
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            #e8ddff,
-            transparent 30%
-        ),
-        #f7f7fb;
-}
+        displaySongs(filtered);
 
-.dark .hero {
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            #2c2450,
-            transparent 30%
-        ),
-        #11101a;
-}
+    }
+);
 
-.hero-content {
-    max-width: 650px;
-}
 
-.small-title,
-.section-label {
-    color: #6c4cff;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
+// DISPLAY SESSIONS
 
-.hero h1 {
-    font-size: 55px;
-    line-height: 1.1;
-    margin: 15px 0;
-}
+function displaySessions() {
 
-.hero h1 span {
-    color: #6c4cff;
-}
+    sessionList.innerHTML = "";
 
-.hero-text {
-    color: #777;
-    font-size: 16px;
-    max-width: 570px;
-}
+    sessions.forEach(function(session, index) {
 
-.dark .hero-text {
-    color: #aaa;
-}
+        const sessionElement =
+            document.createElement("div");
 
-.hero-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-}
+        sessionElement.className =
+            "session-card";
 
-.primary-btn {
-    border: none;
-    background: linear-gradient(
-        135deg,
-        #6c4cff,
-        #925cff
-    );
-    color: white;
-    padding: 13px 22px;
-    border-radius: 9px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow:
-        0 8px 20px
-        rgba(108, 76, 255, 0.25);
-}
+        sessionElement.innerHTML = `
 
-.primary-btn:hover {
-    transform: translateY(-2px);
-}
+            <div class="session-date">
+                📅 ${session.date}
+            </div>
 
-.secondary-btn {
-    border: 1px solid #ddd;
-    background: white;
-    color: #444;
-    padding: 13px 22px;
-    border-radius: 9px;
-    text-decoration: none;
-    font-weight: bold;
-}
+            <h3>
+                ${session.name}
+            </h3>
 
-.dark .secondary-btn {
-    background: #1d1b29;
-    border-color: #39354a;
-    color: white;
-}
+            <p>
+                📍 ${session.location}
+            </p>
 
-.music-card {
-    width: 310px;
-    background: white;
-    border-radius: 25px;
-    padding: 25px;
-    text-align: center;
-    box-shadow:
-        0 25px 60px
-        rgba(50, 30, 100, 0.15);
-}
+            <p>
+                👥 ${session.people} students attending
+            </p>
 
-.dark .music-card {
-    background: #1c1a27;
-}
+            <button
+                class="join-btn ${
+                    session.joined
+                        ? "joined"
+                        : ""
+                }"
+                onclick="joinSession(${index})"
+            >
 
-.album {
-    height: 220px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    background:
-        linear-gradient(
-            135deg,
-            #6c4cff,
-            #ef4f9b
+                ${
+                    session.joined
+                        ? "✓ Joined"
+                        : "Join Session"
+                }
+
+            </button>
+
+        `;
+
+        sessionList.appendChild(
+            sessionElement
         );
+
+    });
+
+    sessionCount.innerText =
+        sessions.length;
 }
 
-.music-card h3 {
-    margin-top: 20px;
-}
 
-.music-card p {
-    color: #888;
-    font-size: 12px;
-}
+// JOIN SESSION
 
-.music-progress {
-    height: 5px;
-    background: #eee;
-    border-radius: 10px;
-    margin: 20px 0;
-}
+function joinSession(index) {
 
-.music-progress div {
-    height: 100%;
-    width: 60%;
-    background: #6c4cff;
-    border-radius: 10px;
-}
+    if (sessions[index].joined) {
 
-.music-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 35px;
-    color: #777;
-}
+        sessions[index].joined = false;
 
-.music-controls button {
-    border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #6c4cff;
-    color: white;
-    cursor: pointer;
-}
+        sessions[index].people--;
 
-.stats {
-    max-width: 1200px;
-    margin: -30px auto 50px;
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background: white;
-    border-radius: 18px;
-    box-shadow:
-        0 10px 40px rgba(0,0,0,.07);
-}
+    } else {
 
-.dark .stats {
-    background: #1c1a27;
-}
+        sessions[index].joined = true;
 
-.stat {
-    text-align: center;
-    padding: 25px;
-    border-right: 1px solid #eee;
-}
+        sessions[index].people++;
 
-.dark .stat {
-    border-color: #302d3e;
-}
-
-.stat:last-child {
-    border-right: none;
-}
-
-.stat h2 {
-    color: #6c4cff;
-    font-size: 28px;
-}
-
-.stat p {
-    color: #888;
-    font-size: 12px;
-}
-
-.section {
-    max-width: 1200px;
-    margin: auto;
-    padding: 70px 20px;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.section-header h2 {
-    font-size: 30px;
-    margin: 5px 0;
-}
-
-.section-header p:last-child {
-    color: #888;
-    font-size: 13px;
-}
-
-#searchInput {
-    width: 230px;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-}
-
-.dark #searchInput {
-    background: #1c1a27;
-    color: white;
-    border-color: #39354a;
-}
-
-.song-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.song {
-    display: grid;
-    grid-template-columns: 50px 55px 1fr auto;
-    align-items: center;
-    gap: 15px;
-    background: white;
-    padding: 13px;
-    border-radius: 12px;
-    border: 1px solid #eee;
-}
-
-.dark .song {
-    background: #1c1a27;
-    border-color: #302d3e;
-}
-
-.song-number {
-    color: #aaa;
-    text-align: center;
-}
-
-.album-small {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 23px;
-}
-
-.purple {
-    background: linear-gradient(135deg, #6c4cff, #b157ff);
-}
-
-.pink {
-    background: linear-gradient(135deg, #ed4f9a, #ff779a);
-}
-
-.blue {
-    background: linear-gradient(135deg, #367cf5, #5bbcff);
-}
-
-.orange {
-    background: linear-gradient(135deg, #ff7a42, #ffc05a);
-}
-
-.song-info strong {
-    display: block;
-    font-size: 14px;
-}
-
-.song-info small {
-    color: #888;
-}
-
-.genre {
-    display: inline-block;
-    color: #6c4cff;
-    background: #eeeaff;
-    padding: 2px 7px;
-    border-radius: 20px;
-    font-size: 9px;
-    margin-top: 3px;
-}
-
-.vote-btn {
-    border: none;
-    background: transparent;
-    color: #888;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.vote-btn:hover,
-.vote-btn.voted {
-    color: #ed4f9a;
-}
-
-.sessions-section {
-    max-width: none;
-    background: white;
-    padding-left: 8%;
-    padding-right: 8%;
-}
-
-.dark .sessions-section {
-    background: #191824;
-}
-
-.session-grid {
-    max-width: 1200px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.session-card {
-    padding: 22px;
-    border: 1px solid #eee;
-    border-radius: 15px;
-    background: #fafaff;
-}
-
-.dark .session-card {
-    background: #1c1a27;
-    border-color: #302d3e;
-}
-
-.session-date {
-    color: #6c4cff;
-    font-weight: bold;
-    font-size: 13px;
-}
-
-.session-card h3 {
-    margin: 10px 0;
-}
-
-.session-card p {
-    color: #888;
-    font-size: 11px;
-}
-
-.join-btn {
-    margin-top: 15px;
-    border: none;
-    background: #eeeaff;
-    color: #6c4cff;
-    padding: 8px 13px;
-    border-radius: 7px;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.join-btn.joined {
-    background: #dff7e9;
-    color: #159456;
-}
-
-.about {
-    max-width: 1200px;
-    margin: auto;
-    padding: 90px 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-}
-
-.about h2 {
-    font-size: 35px;
-}
-
-.about > p {
-    color: #777;
-    font-size: 15px;
-}
-
-footer {
-    padding: 30px 8%;
-    background: #171525;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-footer p {
-    color: #aaa;
-    font-size: 11px;
-}
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 500;
-    padding: 20px;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 450px;
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    position: relative;
-}
-
-.dark .modal-box {
-    background: #1c1a27;
-}
-
-.close {
-    position: absolute;
-    right: 18px;
-    top: 12px;
-    border: none;
-    background: transparent;
-    font-size: 28px;
-    cursor: pointer;
-    color: #888;
-}
-
-.modal-box h2 {
-    margin-bottom: 5px;
-}
-
-.modal-box > p {
-    color: #888;
-    font-size: 12px;
-    margin-bottom: 25px;
-}
-
-.modal-box label {
-    display: block;
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.modal-box input,
-.modal-box select {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-top: 6px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-}
-
-.dark .modal-box input,
-.dark .modal-box select {
-    background: #11101a;
-    color: white;
-    border-color: #39354a;
-}
-
-.full {
-    width: 100%;
-}
-
-@media (max-width: 800px) {
-
-    .navbar {
-        padding: 0 20px;
     }
 
-    .nav-links {
-        display: none;
-    }
-
-    .hero {
-        flex-direction: column;
-        padding: 60px 20px;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 40px;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .music-card {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    .stats {
-        margin: 20px;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .stat {
-        border-bottom: 1px solid #eee;
-    }
-
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    #searchInput {
-        width: 100%;
-    }
-
-    .session-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .about {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    footer {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
+    displaySessions();
 
 }
 
-@media (max-width: 500px) {
 
-    .song {
-        grid-template-columns: 25px 45px 1fr auto;
-        gap: 8px;
+// ==================================
+// ADD SONG MODAL
+// ==================================
+
+const songModal =
+    document.getElementById("songModal");
+
+const addSongBtn =
+    document.getElementById("addSongBtn");
+
+const closeSongModal =
+    document.getElementById("closeSongModal");
+
+
+addSongBtn.addEventListener(
+    "click",
+    function() {
+
+        songModal.classList.add("show");
+
     }
+);
 
-    .song-number {
-        font-size: 10px;
+
+closeSongModal.addEventListener(
+    "click",
+    function() {
+
+        songModal.classList.remove("show");
+
     }
+);
 
-    .song-info strong {
-        font-size: 11px;
+
+// ADD SONG FORM
+
+const songForm =
+    document.getElementById("songForm");
+
+
+songForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+        const name =
+            document.getElementById("songName").value;
+
+        const artist =
+            document.getElementById("artistName").value;
+
+        const genre =
+            document.getElementById("genre").value;
+
+
+        const colors = [
+            "purple",
+            "pink",
+            "blue",
+            "orange"
+        ];
+
+
+        const newSong = {
+
+            name: name,
+
+            artist: artist,
+
+            genre: genre,
+
+            votes: 0,
+
+            color:
+                colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                ],
+
+            voted: false
+
+        };
+
+
+        songs.push(newSong);
+
+        displaySongs();
+
+
+        songForm.reset();
+
+        songModal.classList.remove("show");
+
     }
+);
 
-}
+
+// ==================================
+// CREATE SESSION
+// ==================================
+
+const sessionModal =
+    document.getElementById("sessionModal");
+
+const createSessionBtn =
+    document.getElementById(
+        "createSessionBtn"
+    );
+
+const closeSessionModal =
+    document.getElementById(
+        "closeSessionModal"
+    );
+
+
+createSessionBtn.addEventListener(
+    "click",
+    function() {
+
+        sessionModal.classList.add(
+            "show"
+        );
+
+    }
+);
+
+
+closeSessionModal.addEventListener(
+    "click",
+    function() {
+
+        sessionModal.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+// SESSION FORM
+
+const sessionForm =
+    document.getElementById(
+        "sessionForm"
+    );
+
+
+sessionForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const name =
+            document.getElementById(
+                "sessionName"
+            ).value;
+
+
+        const date =
+            document.getElementById(
+                "sessionDate"
+            ).value;
+
+
+        const location =
+            document.getElementById(
+                "sessionLocation"
+            ).value;
+
+
+        const formattedDate =
+            new Date(date)
+                .toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric"
+                    }
+                );
+
+
+        sessions.push({
+
+            name: name,
+
+            date: formattedDate,
+
+            location: location,
+
+            people: 1,
+
+            joined: true
+
+        });
+
+
+        displaySessions();
+
+
+        sessionForm.reset();
+
+        sessionModal.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+// ==================================
+// DARK MODE
+// ==================================
+
+const darkModeBtn =
+    document.getElementById(
+        "darkModeBtn"
+    );
+
+
+darkModeBtn.addEventListener(
+    "click",
+    function() {
+
+        document.body.classList.toggle(
+            "dark"
+        );
+
+
+        if (
+            document.body.classList.contains(
+                "dark"
+            )
+        ) {
+
+            darkModeBtn.innerText = "☀️";
+
+        } else {
+
+            darkModeBtn.innerText = "🌙";
+
+        }
+
+    }
+);
+
+
+// ==================================
+// PLAY BUTTON
+// ==================================
+
+const playBtn =
+    document.getElementById("playBtn");
+
+
+let playing = false;
+
+
+playBtn.addEventListener(
+    "click",
+    function() {
+
+        playing = !playing;
+
+        playBtn.innerText =
+            playing ? "Ⅱ" : "▶";
+
+    }
+);
+
+
+// ==================================
+// CLOSE MODAL WHEN CLICKING OUTSIDE
+// ==================================
+
+window.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === songModal
+        ) {
+
+            songModal.classList.remove(
+                "show"
+            );
+
+        }
+
+        if (
+            event.target === sessionModal
+        ) {
+
+            sessionModal.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+// ==================================
+// START APPLICATION
+// ==================================
+
+displaySongs();
+
+displaySessions();
