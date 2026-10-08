@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,110 +7,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusJam | Collaborative Campus Music</title>
+    <title>CampusVibe - Collaborative Campus Music</title>
 
+    <!-- Connect CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
-
-    <nav class="navbar">
+    <!-- NAVIGATION -->
+    <header class="navbar">
 
         <div class="logo">
-            🎵 Campus<span>Jam</span>
+            <div class="logo-icon">♫</div>
+
+            <div>
+                <h2>CampusVibe</h2>
+                <small>Music • Community • Campus</small>
+            </div>
         </div>
 
-        <div class="nav-links">
+        <nav>
             <a href="#home">Home</a>
-            <a href="#playlist">Playlist</a>
-            <a href="#sessions">Jam Sessions</a>
-            <a href="#about">About</a>
-        </div>
+            <a href="#playlists">Playlists</a>
+            <a href="#jams">Jam Tracker</a>
+            <a href="#community">Community</a>
+        </nav>
 
-        <button id="darkModeBtn" class="theme-btn">
-            🌙
-        </button>
+        <button class="login-btn">Login</button>
 
-    </nav>
+    </header>
 
 
-    <!-- ================= HERO ================= -->
-
+    <!-- HERO SECTION -->
     <section class="hero" id="home">
 
-        <div class="hero-content">
+        <div class="hero-text">
 
-            <p class="small-title">
-                YOUR CAMPUS • YOUR MUSIC • YOUR COMMUNITY
-            </p>
+            <span class="badge">🎧 CAMPUS MUSIC HUB</span>
 
             <h1>
-                Music sounds
-                <span>better together.</span>
+                Your Campus.<br>
+                <span>Your Music.</span>
             </h1>
 
-            <p class="hero-text">
-                CampusJam is a collaborative campus music platform
-                where students can discover songs, vote for favorites,
-                share music and join exciting jam sessions.
+            <p>
+                Create playlists, collaborate with friends,
+                discover campus musicians and organize jam sessions.
             </p>
 
             <div class="hero-buttons">
 
-                <button class="primary-btn" id="addSongBtn">
-                    + Add Song
+                <button class="primary-btn" onclick="openPlaylist()">
+                    + Create Playlist
                 </button>
 
-                <a href="#playlist" class="secondary-btn">
-                    Explore Playlist
-                </a>
+                <button class="secondary-btn" onclick="scrollToPlaylists()">
+                    Explore Music →
+                </button>
 
             </div>
 
         </div>
 
+        <div class="music-circle">
 
-        <!-- MUSIC PLAYER -->
-
-        <div class="music-card">
-
-            <div class="album">
-                🎧
-            </div>
-
-            <h3 id="playerTitle">
-                Campus Vibes
-            </h3>
-
-            <p id="playerArtist">
-                Today's community playlist
-            </p>
-
-            <div class="music-progress">
-                <div id="progressBar"></div>
-            </div>
-
-            <div class="music-time">
-                <span>0:00</span>
-                <span>3:45</span>
-            </div>
-
-            <div class="music-controls">
-
-                <button class="control-btn">
-                    ⏮
-                </button>
-
-                <button id="playBtn" class="play-btn">
-                    ▶
-                </button>
-
-                <button class="control-btn">
-                    ⏭
-                </button>
-
+            <div class="vinyl">
+                <div class="vinyl-center">♫</div>
             </div>
 
         </div>
@@ -116,190 +81,375 @@
     </section>
 
 
-    <!-- ================= STATS ================= -->
-
+    <!-- STATISTICS -->
     <section class="stats">
 
-        <div class="stat">
-            <h2 id="songCount">0</h2>
-            <p>Community Songs</p>
+        <div class="stat-card">
+            <div class="stat-icon purple">🎵</div>
+            <div>
+                <p>Active Playlists</p>
+                <h2 id="playlistCount">24</h2>
+            </div>
         </div>
 
-        <div class="stat">
-            <h2>248</h2>
-            <p>Students</p>
+        <div class="stat-card">
+            <div class="stat-icon pink">🎸</div>
+            <div>
+                <p>Jam Sessions</p>
+                <h2 id="jamCount">18</h2>
+            </div>
         </div>
 
-        <div class="stat">
-            <h2 id="sessionCount">0</h2>
-            <p>Jam Sessions</p>
+        <div class="stat-card">
+            <div class="stat-icon blue">👥</div>
+            <div>
+                <p>Community Members</p>
+                <h2>1,248</h2>
+            </div>
         </div>
 
-        <div class="stat">
-            <h2>24</h2>
-            <p>Artists</p>
+        <div class="stat-card">
+            <div class="stat-icon orange">🔥</div>
+            <div>
+                <p>Trending Songs</p>
+                <h2>56</h2>
+            </div>
         </div>
 
     </section>
 
 
-    <!-- ================= QUOTE ================= -->
+    <!-- PLAYLIST SECTION -->
+    <section class="section" id="playlists">
 
-    <section class="quote-section">
-
-        <div class="quote-icon">
-            ♪
-        </div>
-
-        <p class="quote-label">
-            CAMPUSJAM • MUSIC OF THE DAY
-        </p>
-
-        <h2 id="musicQuote">
-            "Where words fail, music speaks."
-        </h2>
-
-        <p id="quoteAuthor">
-            — Hans Christian Andersen
-        </p>
-
-        <button id="quoteBtn" class="quote-btn">
-            ✨ New Quote
-        </button>
-
-    </section>
-
-
-    <!-- ================= PLAYLIST ================= -->
-
-    <section class="section" id="playlist">
-
-        <div class="section-header">
+        <div class="section-heading">
 
             <div>
-
-                <p class="section-label">
-                    COMMUNITY PLAYLIST
-                </p>
-
-                <h2>
-                    Campus Playlist
-                </h2>
-
-                <p>
-                    Songs recommended and voted by students.
-                </p>
-
+                <span>DISCOVER</span>
+                <h2>Campus Playlists</h2>
+                <p>Music created and shared by your campus community.</p>
             </div>
+
+            <button class="outline-btn" onclick="showAll()">
+                View All
+            </button>
+
+        </div>
+
+
+        <!-- SEARCH -->
+        <div class="search-area">
 
             <input
                 type="text"
                 id="searchInput"
-                placeholder="🔍 Search songs..."
+                placeholder="🔍 Search playlists..."
+                onkeyup="searchPlaylists()"
             >
+
+            <div class="filters">
+
+                <button onclick="filterPlaylist('all')">All</button>
+                <button onclick="filterPlaylist('study')">Study</button>
+                <button onclick="filterPlaylist('party')">Party</button>
+                <button onclick="filterPlaylist('chill')">Chill</button>
+                <button onclick="filterPlaylist('rock')">Rock</button>
+
+            </div>
 
         </div>
 
 
-        <div
-            class="song-list"
-            id="songList"
-        ></div>
+        <!-- PLAYLIST CARDS -->
+        <div class="playlist-grid" id="playlistGrid">
+
+            <div class="playlist-card" data-category="study">
+
+                <div class="playlist-cover purple-cover">
+
+                    📚
+
+                    <button onclick="likePlaylist(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="playlist-content">
+
+                    <h3>Late Night Study</h3>
+
+                    <p>
+                        Calm beats for late-night assignments.
+                    </p>
+
+                    <div class="playlist-info">
+                        🎵 42 songs • 👥 8 members
+                    </div>
+
+                    <button class="play-btn" onclick="playMusic(this)">
+                        ▶ Play
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="playlist-card" data-category="party">
+
+                <div class="playlist-cover pink-cover">
+
+                    🎉
+
+                    <button onclick="likePlaylist(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="playlist-content">
+
+                    <h3>Friday Night Fever</h3>
+
+                    <p>
+                        The ultimate campus party collection.
+                    </p>
+
+                    <div class="playlist-info">
+                        🎵 68 songs • 👥 14 members
+                    </div>
+
+                    <button class="play-btn" onclick="playMusic(this)">
+                        ▶ Play
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="playlist-card" data-category="chill">
+
+                <div class="playlist-cover blue-cover">
+
+                    🌙
+
+                    <button onclick="likePlaylist(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="playlist-content">
+
+                    <h3>Rooftop Vibes</h3>
+
+                    <p>
+                        Relaxing tracks for peaceful evenings.
+                    </p>
+
+                    <div class="playlist-info">
+                        🎵 31 songs • 👥 6 members
+                    </div>
+
+                    <button class="play-btn" onclick="playMusic(this)">
+                        ▶ Play
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="playlist-card" data-category="rock">
+
+                <div class="playlist-cover orange-cover">
+
+                    🎸
+
+                    <button onclick="likePlaylist(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="playlist-content">
+
+                    <h3>Campus Rock Stars</h3>
+
+                    <p>
+                        Guitar-heavy tracks from student bands.
+                    </p>
+
+                    <div class="playlist-info">
+                        🎵 53 songs • 👥 12 members
+                    </div>
+
+                    <button class="play-btn" onclick="playMusic(this)">
+                        ▶ Play
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </section>
 
 
-    <!-- ================= JAM SESSIONS ================= -->
+    <!-- JAM TRACKER -->
+    <section class="section jam-section" id="jams">
 
-    <section
-        class="section sessions-section"
-        id="sessions"
-    >
-
-        <div class="section-header">
+        <div class="section-heading">
 
             <div>
+                <span>COLLABORATE</span>
 
-                <p class="section-label">
-                    MUSIC COMMUNITY
-                </p>
-
-                <h2>
-                    Upcoming Jam Sessions
-                </h2>
+                <h2>Jam Session Tracker</h2>
 
                 <p>
-                    Meet other students and make music together.
+                    Find a session and join your campus musicians.
                 </p>
-
             </div>
 
-            <button
-                class="primary-btn"
-                id="createSessionBtn"
-            >
-                + Create Session
+            <button class="primary-btn" onclick="openJam()">
+                + Add Jam Session
             </button>
 
         </div>
 
 
-        <div
-            class="session-grid"
-            id="sessionList"
-        ></div>
+        <div class="jam-container">
 
-    </section>
+            <div class="jam-list">
+
+                <h3>🔥 Upcoming Sessions</h3>
 
 
-    <!-- ================= ABOUT ================= -->
+                <div class="jam-card">
 
-    <section class="about" id="about">
+                    <div class="date">
 
-        <div>
+                        <strong>08</strong>
+                        <small>OCT</small>
 
-            <p class="section-label">
-                ABOUT CAMPUSJAM
-            </p>
+                    </div>
 
-            <h2>
-                Built for students who love music.
-            </h2>
+                    <div class="jam-details">
 
-        </div>
+                        <h3>Acoustic Evening</h3>
 
-        <div class="about-content">
+                        <p>
+                            📍 Music Room • 6:00 PM
+                        </p>
 
-            <p>
-                CampusJam brings your campus music community
-                together in one place.
-            </p>
+                        <small>
+                            👥 8 students joined
+                        </small>
 
-            <p>
-                Discover new songs, vote for your favorite tracks,
-                meet musicians and participate in live jam sessions.
-            </p>
+                    </div>
 
-            <div class="features">
+                    <button onclick="joinJam(this)">
+                        Join
+                    </button>
 
-                <div>
-                    🎵
-                    <strong>Discover</strong>
                 </div>
 
-                <div>
-                    ❤️
-                    <strong>Vote</strong>
+
+                <div class="jam-card">
+
+                    <div class="date pink-date">
+
+                        <strong>09</strong>
+                        <small>OCT</small>
+
+                    </div>
+
+                    <div class="jam-details">
+
+                        <h3>Battle of Bands</h3>
+
+                        <p>
+                            📍 Open Auditorium • 7:30 PM
+                        </p>
+
+                        <small>
+                            👥 12 students joined
+                        </small>
+
+                    </div>
+
+                    <button onclick="joinJam(this)">
+                        Join
+                    </button>
+
                 </div>
 
-                <div>
-                    🎸
-                    <strong>Jam</strong>
+
+                <div class="jam-card">
+
+                    <div class="date blue-date">
+
+                        <strong>10</strong>
+                        <small>OCT</small>
+
+                    </div>
+
+                    <div class="jam-details">
+
+                        <h3>Lo-Fi Jam Night</h3>
+
+                        <p>
+                            📍 Student Lounge • 8:00 PM
+                        </p>
+
+                        <small>
+                            👥 4 students joined
+                        </small>
+
+                    </div>
+
+                    <button onclick="joinJam(this)">
+                        Join
+                    </button>
+
                 </div>
 
-                <div>
-                    👥
-                    <strong>Connect</strong>
+            </div>
+
+
+            <!-- JAM PROGRESS -->
+            <div class="progress-card">
+
+                <h3>🎸 My Jam Progress</h3>
+
+                <div class="progress-circle">
+
+                    <strong>72%</strong>
+
+                </div>
+
+                <p>Monthly Goal Complete</p>
+
+                <div class="progress-stats">
+
+                    <div>
+                        <strong>8</strong>
+                        <small>Sessions</small>
+                    </div>
+
+                    <div>
+                        <strong>14</strong>
+                        <small>Hours</small>
+                    </div>
+
+                    <div>
+                        <strong>6</strong>
+                        <small>Friends</small>
+                    </div>
+
                 </div>
 
             </div>
@@ -309,175 +459,235 @@
     </section>
 
 
-    <!-- ================= FOOTER ================= -->
+    <!-- COMMUNITY -->
+    <section class="section" id="community">
 
-    <footer>
+        <div class="section-heading">
 
-        <div class="logo">
-            🎵 Campus<span>Jam</span>
+            <div>
+
+                <span>COMMUNITY</span>
+
+                <h2>Campus Musicians</h2>
+
+                <p>
+                    Meet students who share your passion for music.
+                </p>
+
+            </div>
+
         </div>
 
+
+        <div class="musician-grid">
+
+            <div class="musician-card">
+
+                <div class="musician-avatar purple">
+                    AR
+                </div>
+
+                <h3>Arjun Rao</h3>
+
+                <p>🎸 Guitarist</p>
+
+                <small>12 collaborations</small>
+
+                <button onclick="connectUser(this)">
+                    Connect
+                </button>
+
+            </div>
+
+
+            <div class="musician-card">
+
+                <div class="musician-avatar pink">
+                    SM
+                </div>
+
+                <h3>Sarah Mathew</h3>
+
+                <p>🎤 Vocalist</p>
+
+                <small>18 collaborations</small>
+
+                <button onclick="connectUser(this)">
+                    Connect
+                </button>
+
+            </div>
+
+
+            <div class="musician-card">
+
+                <div class="musician-avatar blue">
+                    RK
+                </div>
+
+                <h3>Rahul Kumar</h3>
+
+                <p>🥁 Drummer</p>
+
+                <small>9 collaborations</small>
+
+                <button onclick="connectUser(this)">
+                    Connect
+                </button>
+
+            </div>
+
+
+            <div class="musician-card">
+
+                <div class="musician-avatar orange">
+                    NP
+                </div>
+
+                <h3>Nisha Patel</h3>
+
+                <p>🎹 Keyboardist</p>
+
+                <small>15 collaborations</small>
+
+                <button onclick="connectUser(this)">
+                    Connect
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <h2>♫ CampusVibe</h2>
+
         <p>
-            © 2026 CampusJam • Built for music lovers.
+            Bringing campus musicians together,
+            one playlist at a time.
         </p>
+
+        <small>
+            © 2026 CampusVibe | College Project
+        </small>
 
     </footer>
 
 
-    <!-- ================= ADD SONG MODAL ================= -->
-
-    <div
-        class="modal"
-        id="songModal"
-    >
+    <!-- CREATE PLAYLIST POPUP -->
+    <div class="modal" id="playlistModal">
 
         <div class="modal-box">
 
-            <button
-                class="close"
-                id="closeSongModal"
-            >
+            <button class="close" onclick="closePlaylist()">
                 ×
             </button>
 
-            <h2>
-                Add a Song
-            </h2>
+            <h2>🎵 Create Playlist</h2>
 
             <p>
-                Add your favorite song to the campus playlist.
+                Create a playlist for your campus friends.
             </p>
 
-            <form id="songForm">
+            <input
+                type="text"
+                id="playlistName"
+                placeholder="Playlist name"
+            >
 
-                <label>
-                    Song Name
+            <select id="playlistCategory">
 
-                    <input
-                        type="text"
-                        id="songName"
-                        placeholder="Example: Perfect"
-                        required
-                    >
-                </label>
+                <option value="study">Study</option>
+                <option value="party">Party</option>
+                <option value="chill">Chill</option>
+                <option value="rock">Rock</option>
 
-                <label>
-                    Artist
+            </select>
 
-                    <input
-                        type="text"
-                        id="artistName"
-                        placeholder="Example: Ed Sheeran"
-                        required
-                    >
-                </label>
+            <textarea
+                id="playlistDescription"
+                placeholder="Playlist description"
+            ></textarea>
 
-                <label>
-                    Genre
-
-                    <select id="genre">
-
-                        <option>Pop</option>
-                        <option>Rock</option>
-                        <option>Indie</option>
-                        <option>Hip Hop</option>
-                        <option>Lo-fi</option>
-                        <option>Classical</option>
-
-                    </select>
-
-                </label>
-
-                <button
-                    type="submit"
-                    class="primary-btn full"
-                >
-                    Add Song
-                </button>
-
-            </form>
+            <button
+                class="primary-btn full"
+                onclick="createPlaylist()"
+            >
+                Create Playlist
+            </button>
 
         </div>
 
     </div>
 
 
-    <!-- ================= CREATE SESSION MODAL ================= -->
-
-    <div
-        class="modal"
-        id="sessionModal"
-    >
+    <!-- CREATE JAM POPUP -->
+    <div class="modal" id="jamModal">
 
         <div class="modal-box">
 
-            <button
-                class="close"
-                id="closeSessionModal"
-            >
+            <button class="close" onclick="closeJam()">
                 ×
             </button>
 
-            <h2>
+            <h2>🎸 Add Jam Session</h2>
+
+            <p>
+                Create a new campus jam session.
+            </p>
+
+            <input
+                type="text"
+                id="jamName"
+                placeholder="Session name"
+            >
+
+            <input
+                type="date"
+                id="jamDate"
+            >
+
+            <input
+                type="time"
+                id="jamTime"
+            >
+
+            <input
+                type="text"
+                id="jamLocation"
+                placeholder="Location"
+            >
+
+            <button
+                class="primary-btn full"
+                onclick="createJam()"
+            >
                 Create Jam Session
-            </h2>
-
-            <p>
-                Create a new music session for students.
-            </p>
-
-            <form id="sessionForm">
-
-                <label>
-                    Session Name
-
-                    <input
-                        type="text"
-                        id="sessionName"
-                        placeholder="Friday Night Jam"
-                        required
-                    >
-                </label>
-
-                <label>
-                    Date
-
-                    <input
-                        type="date"
-                        id="sessionDate"
-                        required
-                    >
-                </label>
-
-                <label>
-                    Location
-
-                    <input
-                        type="text"
-                        id="sessionLocation"
-                        placeholder="College Auditorium"
-                        required
-                    >
-                </label>
-
-                <button
-                    type="submit"
-                    class="primary-btn full"
-                >
-                    Create Session
-                </button>
-
-            </form>
+            </button>
 
         </div>
 
     </div>
 
 
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- NOTIFICATION -->
+    <div id="notification" class="notification">
 
+        <span>✓</span>
+
+        <p>Success!</p>
+
+    </div>
+
+
+    <!-- Connect JavaScript -->
     <script src="script.js"></script>
 
 </body>
 
 </html>
+:::
